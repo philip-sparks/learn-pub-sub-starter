@@ -4,11 +4,21 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"math/rand"
+	"math/rand" // Importing the missing package
 	"os"
 	"strings"
 )
 
+// PrintServerHelp prints the list of available server commands
+func PrintServerHelp() {
+	fmt.Println("Possible commands:")
+	fmt.Println("* pause   - Pauses the game")
+	fmt.Println("* resume  - Resumes the game")
+	fmt.Println("* quit    - Exits the server")
+	fmt.Println("* help    - Prints this help message")
+}
+
+// PrintClientHelp prints the list of available client commands
 func PrintClientHelp() {
 	fmt.Println("Possible commands:")
 	fmt.Println("* move <location> <unitID> <unitID> <unitID>...")
@@ -25,6 +35,7 @@ func PrintClientHelp() {
 	fmt.Println("* help")
 }
 
+// ClientWelcome prompts the user for their username
 func ClientWelcome() (string, error) {
 	fmt.Println("Welcome to the Peril client!")
 	fmt.Println("Please enter your username:")
@@ -38,14 +49,7 @@ func ClientWelcome() (string, error) {
 	return username, nil
 }
 
-func PrintServerHelp() {
-	fmt.Println("Possible commands:")
-	fmt.Println("* pause")
-	fmt.Println("* resume")
-	fmt.Println("* quit")
-	fmt.Println("* help")
-}
-
+// GetInput reads and returns a slice of input words from the user
 func GetInput() []string {
 	fmt.Print("> ")
 	scanner := bufio.NewScanner(os.Stdin)
@@ -58,6 +62,7 @@ func GetInput() []string {
 	return strings.Fields(line)
 }
 
+// GetMaliciousLog generates a random log message (useful for testing)
 func GetMaliciousLog() string {
 	possibleLogs := []string{
 		"Never interrupt your enemy when he is making a mistake.",
@@ -67,15 +72,15 @@ func GetMaliciousLog() string {
 		"The art of war is simple enough. Find out where your enemy is. Get at him as soon as you can. Strike him as hard as you can, and keep moving on.",
 		"All warfare is based on deception.",
 	}
-	randomIndex := rand.Intn(len(possibleLogs))
-	msg := possibleLogs[randomIndex]
-	return msg
+	return possibleLogs[rand.Intn(len(possibleLogs))]
 }
 
+// PrintQuit prints a quit message for the client
 func PrintQuit() {
 	fmt.Println("I hate this game! (╯°□°)╯︵ ┻━┻")
 }
 
+// CommandStatus prints the game status
 func (gs *GameState) CommandStatus() {
 	if gs.isPaused() {
 		fmt.Println("The game is paused.")
